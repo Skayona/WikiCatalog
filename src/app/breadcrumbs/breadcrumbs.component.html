@@ -1,0 +1,9 @@
+<ul *ngIf="breadcrumbs" class="small">
+  <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
+    <span *ngIf="i === breadcrumbs.length - 1;else breadcrumbsLink">{{ breadcrumb.title }}</span>
+    <ng-template #breadcrumbsLink>
+      <a class="text-muted" href="#" (click)="goTo($event, breadcrumb.link)">{{ breadcrumb.title }}</a>
+    </ng-template>
+  </li>
+</ul>
+

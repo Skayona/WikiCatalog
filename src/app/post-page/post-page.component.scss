@@ -1,0 +1,20 @@
+.post {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.actions > * + * {
+  margin-left: 8px;
+}
+
+.actions > button {
+  cursor: pointer;
+}

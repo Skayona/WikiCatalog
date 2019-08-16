@@ -1,0 +1,14 @@
+ul {
+  display: inline-flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li + li {
+  &::before {
+    content: '>';
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}

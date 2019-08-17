@@ -4,6 +4,7 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  grid-template-columns: 100%;
 
   & > * {
     padding-top: 16px;

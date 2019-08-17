@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+.loading {
+  text-align: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+    color: #007bff!important;
+  }
+
+  > * {
+    display: none!important;
+  }
+}

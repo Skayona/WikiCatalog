@@ -1,24 +1,20 @@
 <article>
   <h2 class="text-center">Latest posts</h2>
 
-  <div class="actions">
-    <a class="btn btn-outline-success" [routerLink]="['./create']">Create post</a>
+  <div [appLoading]="loading$ | async">
+    <div class="actions">
+      <a class="btn btn-outline-success" [routerLink]="['./create']">Create post</a>
+    </div>
+
+    <p *ngIf="!(posts$ | async).length" class="text-center">There is no posts yet.</p>
+
+    <ul *ngIf="(posts$ | async).length">
+      <li *ngFor="let post of posts$ | async">
+        <app-post-item
+          [post]="post"
+        ></app-post-item>
+      </li>
+    </ul>
   </div>
-
-  <p class="text-center">There is no posts yet.</p>
-
-  <ul>
-    <li>
-      <article class="card">
-        <div class="card-body">
-          <h3 class="h4">Title</h3>
-          <p>Далеко-далеко за словесными горами в стране гласных и согласных, живут рыбные тексты. Языкового оксмокс свое
-            букв обеспечивает речью свой! Строчка что приставка своих то несколько первую знаках. Рыбного прямо диких
-            большого! Повстречался?</p>
-          <a [routerLink]="['./123/post']">Continue reading »</a>
-        </div>
-      </article>
-    </li>
-  </ul>
 
 </article>

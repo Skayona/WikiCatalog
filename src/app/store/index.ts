@@ -20,9 +20,9 @@ export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState
   return (state: AppState, action: any): AppState => {
     const newState = reducer(state, action);
 
-    if (!environment.production) {
-      console.log(action.type, newState.posts);
-    }
+    // if (!environment.production) {
+    //   console.log(action.type, newState.posts);
+    // }
 
     return newState;
   };

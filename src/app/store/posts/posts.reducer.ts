@@ -19,7 +19,8 @@ export function postsReducer(state: PostsState = initialState, action: PostsActi
   switch (action.type) {
     case PostsActionsType.LOAD_LIST:
     case PostsActionsType.UPDATE_ITEM:
-    case PostsActionsType.CREATE_ITEM:  {
+    case PostsActionsType.CREATE_ITEM:
+    case PostsActionsType.DELETE_ITEM:  {
       return {
         ...state,
         loading: true
@@ -60,6 +61,17 @@ export function postsReducer(state: PostsState = initialState, action: PostsActi
         ...state,
         list: state.list.map((i) => i.id === item.id ? item : i),
         item,
+        loading: false
+      };
+    }
+    case PostsActionsType.ITEM_DELETED: {
+      const postId = action.payload;
+      return {
+        ...state,
+        list: state.list.reduce((prev, curr) => {
+          return (curr.id === postId) ? prev : [...prev, curr];
+        }, []),
+        item: {} as IPost,
         loading: false
       };
     }

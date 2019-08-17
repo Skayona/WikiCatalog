@@ -1,11 +1,9 @@
 <div [appLoading]="loading$ | async">
   <div class="actions">
-    <button class="btn text-secondary" type="button" title="Delete" aria-label="Delete">
-      <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
-    </button>
-    <a class="btn text-dark" [routerLink]="['./edit']" title="Edit" aria-label="Edit">
-      <fa-icon [icon]="['fas', 'edit']"></fa-icon>
-    </a>
+    <app-post-actions
+      [id]="(post$ | async).id"
+      (deleteItem)="deleteItem($event)"
+    ></app-post-actions>
   </div>
 
   <article class="post">

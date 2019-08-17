@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { IPost } from '../models/post';
 import { Observable } from 'rxjs';
@@ -16,8 +16,10 @@ export class PostsService {
     this.api = environment.API;
    }
 
-  getList(): Observable<IPost[]> {
-    return this.http.get<IPost[]>(`${ this.api }/posts`);
+  getList(limit: number = 15): Observable<IPost[]> {
+    return this.http.get<IPost[]>(`${ this.api }/posts`, {
+      params: new HttpParams().set('_limit', `${ limit }`)
+    });
   }
 
   getItem(id: number): Observable<IPost> {

@@ -1,0 +1,8 @@
+<button class="btn text-secondary" type="button" title="Delete" aria-label="Delete"
+  (click)="onDeleteItem(id)"
+>
+  <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+</button>
+<a class="btn text-dark" [routerLink]="['./edit']" title="Edit" aria-label="Edit">
+  <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+</a>

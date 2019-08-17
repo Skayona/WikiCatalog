@@ -8,16 +8,19 @@ import {
   CreateItem,
   ItemCreated,
   ItemUpdated,
-  UpdateItem
+  UpdateItem,
+  DeleteItem,
+  ItemDeleted
 } from './posts.actions';
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, empty } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, take, pluck, mergeMap } from 'rxjs/operators';
 import { AppState } from '..';
 import { Store } from '@ngrx/store';
 import { IPost } from 'src/app/models/post';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PostsEffects {
@@ -34,7 +37,7 @@ export class PostsEffects {
             }
             return this.postsService.getList().pipe(
               map((list) => new ListLoaded(list)),
-              catchError((error) => of(new PostsError(error)))
+              catchError((error: HttpErrorResponse) => of(new PostsError(error.statusText)))
             );
           })
         );
@@ -57,7 +60,13 @@ export class PostsEffects {
             }
             return this.postsService.getItem(postId).pipe(
               map((item) => new ItemLoaded(item)),
-              catchError((error) => of(new PostsError(error)))
+              catchError((error: HttpErrorResponse) => {
+                if (error.status === 404) {
+                  this.router.navigate(['/']);
+                  return empty();
+                }
+                return of(new PostsError(error.statusText));
+              })
             );
           })
         );
@@ -72,10 +81,10 @@ export class PostsEffects {
         const id = (new Date()).getTime();
         return this.postsService.addItem(action.payload).pipe(
           map((item) => {
-            this.router.navigate(['posts']);
+            this.router.navigate(['posts', id, 'post']);
             return new ItemCreated({ ...item, id });
           }),
-          catchError((error) => of(new PostsError(error)))
+          catchError((error: HttpErrorResponse) => of(new PostsError(error.statusText)))
         );
 
       })
@@ -94,11 +103,26 @@ export class PostsEffects {
           this.router.navigate(['posts', postId, 'post']);
           return new ItemUpdated({ ...item, id: postId });
         }),
-        catchError((error) => of(new PostsError(error)))
-      );
-    })
-  )
-);
+        catchError((error: HttpErrorResponse) => of(new PostsError(error.statusText))));
+      })
+    )
+  );
+
+  deleteItem$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(PostsActionsType.DELETE_ITEM),
+    exhaustMap((action: DeleteItem) => {
+      const id = action.payload > 100 ? 101 : Number(action.payload);
+      return this.postsService.deleteItem(id).pipe(
+        map(() => {
+          const postId = Number(action.payload);
+          this.router.navigate(['posts']);
+          return new ItemDeleted(postId);
+        }),
+        catchError((error: HttpErrorResponse) => of(new PostsError(error.statusText))));
+      })
+    )
+  );
 
   constructor(
     private router: Router,

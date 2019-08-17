@@ -1,6 +1,7 @@
 import { PostsEffects } from './posts/posts.effects';
 import { ActionReducerMap, ActionReducer, MetaReducer, createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromPosts from './posts/posts.reducer';
+import { environment } from 'src/environments/environment';
 
 export interface AppState {
   posts: fromPosts.PostsState;
@@ -18,7 +19,10 @@ export const reducers: ActionReducerMap<AppState> = {
 export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
   return (state: AppState, action: any): AppState => {
     const newState = reducer(state, action);
-    console.log('posts', newState.posts);
+
+    if (!environment.production) {
+      console.log(action.type, newState.posts);
+    }
 
     return newState;
   };

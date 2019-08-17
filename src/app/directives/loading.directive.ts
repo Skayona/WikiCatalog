@@ -7,8 +7,8 @@ export class LoadingDirective implements OnChanges {
   @Input() appLoading: boolean;
 
   constructor(
-    public el: ElementRef,
-    public renderer: Renderer2
+    public el?: ElementRef,
+    public renderer?: Renderer2
   ) { }
 
   ngOnChanges(value: SimpleChanges) {

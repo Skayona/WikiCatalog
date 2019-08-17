@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store, select } from '@ngrx/store';
 import { AppState, getPostsLoading, getPostItem } from '../store';
-import { LoadItem } from '../store/posts/posts.actions';
+import { LoadItem, DeleteItem } from '../store/posts/posts.actions';
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../models/post';
 import { Observable } from 'rxjs';
@@ -18,12 +16,9 @@ export class PostPageComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(
-    private library: FaIconLibrary,
     private route: ActivatedRoute,
     private store: Store<AppState>
-  ) {
-    library.addIcons(faEdit, faTrashAlt);
-   }
+  ) { }
 
   ngOnInit() {
     const { postId }: { postId?: number} = this.route.snapshot.params;
@@ -34,6 +29,10 @@ export class PostPageComponent implements OnInit {
     this.post$ = this.store.pipe(
       select(getPostItem)
     );
+  }
+
+  deleteItem(id: number) {
+    this.store.dispatch(new DeleteItem(id));
   }
 
 }

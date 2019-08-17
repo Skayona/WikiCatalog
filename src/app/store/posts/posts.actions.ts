@@ -11,6 +11,8 @@ export enum PostsActionsType {
   UPDATE_ITEM = '[Posts] update item',
   ITEM_UPDATED = '[Posts] item updated',
   CLEAR_ITEM = '[Posts] clear item',
+  DELETE_ITEM = '[Posts] delete item',
+  ITEM_DELETED = '[Posts] item deleted',
   ERROR = '[Posts] load error'
 }
 
@@ -66,6 +68,18 @@ export class ClearItem implements Action {
   constructor(public payload: IPost) { }
 }
 
+export class DeleteItem implements Action {
+  readonly type = PostsActionsType.DELETE_ITEM;
+
+  constructor(public payload: number) { }
+}
+
+export class ItemDeleted implements Action {
+  readonly type = PostsActionsType.ITEM_DELETED;
+
+  constructor(public payload: number) { }
+}
+
 export class PostsError implements Action {
   readonly type = PostsActionsType.ERROR;
 
@@ -82,4 +96,6 @@ export type PostsAction =
   | UpdateItem
   | ItemUpdated
   | ClearItem
+  | DeleteItem
+  | ItemDeleted
   | PostsError;

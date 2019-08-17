@@ -16,6 +16,7 @@ import { reducers, metaReducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { PostItemComponent } from './post-item/post-item.component';
 import { LoadingDirective } from './directives/loading.directive';
+import { PostActionsComponent } from './post-actions/post-actions.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoadingDirective } from './directives/loading.directive';
     BreadcrumbsComponent,
     PostItemComponent,
     LoadingDirective,
+    PostActionsComponent,
   ],
   imports: [
     BrowserModule,
